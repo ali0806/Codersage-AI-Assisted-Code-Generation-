@@ -1,0 +1,417 @@
+{
+  "name": "Codersage",
+  "displayName": "Codersage - AI Code Completion and Chat",
+  "description": "Locally hosted AI code completion plugin for vscode",
+  "version": "3.11.45",
+  "icon": "assets/icon.png",
+  "keywords": [
+    "code-inference",
+    "code-suggestion",
+    "localhost",
+    "no-leaks",
+    "private",
+    "ai",
+    "ollama",
+    "llama",
+    "development",
+    "extension",
+    "llama-code",
+    "snippets",
+    "chat",
+    "code-snippets",
+    "autocomplete",
+    "intellisense",
+    "llama-ai",
+    "vscode-extension"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Debuggers",
+    "Formatters",
+    "Machine Learning",
+    "Education",
+    "Testing",
+    "Data Science",
+    "Extension Packs",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "author": {
+    "name": "rjmacarthy"
+  },
+  "main": "./out/index.js",
+  "browser": "./out/index.js",
+  "contributes": {
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorTextFocus",
+          "command": "codersage.explain"
+        },
+        {
+          "when": "editorTextFocus",
+          "command": "codersage.refactor"
+        },
+        {
+          "when": "editorTextFocus",
+          "command": "codersage.addTypes"
+        },
+        {
+          "when": "editorTextFocus",
+          "command": "codersage.addTests"
+        },
+        {
+          "when": "editorTextFocus",
+          "command": "codersage.generateDocs"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "codersage.openChat",
+          "group": "navigation@0",
+          "when": "view == codersage.sidebar && codersageManageTemplates || view == codersage.sidebar && codersageManageProviders || view == codersage.sidebar && codersageConversationHistory "
+        },
+        {
+          "command": "codersage.manageProviders",
+          "group": "navigation@1",
+          "when": "view == codersage.sidebar"
+        },
+        {
+          "command": "codersage.manageTemplates",
+          "group": "navigation@2",
+          "when": "view == codersage.sidebar"
+        },
+        {
+          "command": "codersage.templates",
+          "when": "view == codersage.sidebar",
+          "group": "navigation@3"
+        },
+        {
+          "command": "codersage.conversationHistory",
+          "when": "view == codersage.sidebar",
+          "group": "navigation@4"
+        },
+        {
+          "command": "codersage.newChat",
+          "when": "view == codersage.sidebar",
+          "group": "navigation@5"
+        },
+        {
+          "command": "codersage.settings",
+          "when": "view == codersage.sidebar",
+          "group": "navigation@6"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "codersage.explain",
+        "title": "codersage - Explain"
+      },
+      {
+        "command": "codersage.refactor",
+        "title": "codersage - Refactor"
+      },
+      {
+        "command": "codersage.addTypes",
+        "title": "codersage - Add types"
+      },
+      {
+        "command": "codersage.addTests",
+        "title": "codersage - Write tests"
+      },
+      {
+        "command": "codersage.generateDocs",
+        "title": "codersage - Generate docs"
+      },
+      {
+        "command": "codersage.enable",
+        "shortTitle": "Enable codersage",
+        "title": "Enable codersage"
+      },
+      {
+        "command": "codersage.stopGeneration",
+        "title": "Stop generation"
+      },
+      {
+        "command": "codersage.getGitCommitMessage",
+        "title": "Generate git commit message"
+      },
+      {
+        "command": "codersage.disable",
+        "title": "Disable codersage",
+        "shortTitle": "Disable codersage"
+      },
+      {
+        "command": "codersage.sidebar.focus",
+        "shortTitle": "Enable codersage sidebar",
+        "title": "Enable codersage sidebar"
+      },
+      {
+        "command": "codersage.settings",
+        "shortTitle": "codersage settings",
+        "title": "Open codersage settings",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "codersage.conversationHistory",
+        "shortTitle": "codersage conversation history",
+        "title": "Open codersage conversation history",
+        "icon": "$(history)"
+      },
+      {
+        "command": "codersage.newChat",
+        "shortTitle": "New chat",
+        "title": "Start a new chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "codersage.templates",
+        "shortTitle": "Edit codersage templates",
+        "title": "Edit codersage templates",
+        "icon": "$(pencil)"
+      },
+      {
+        "command": "codersage.manageTemplates",
+        "shortTitle": "Manage codersage templates",
+        "title": "Manage codersage templates",
+        "icon": "$(files)"
+      },
+      {
+        "command": "codersage.manageProviders",
+        "shortTitle": "Manage codersage providers",
+        "title": "Manage codersage providers",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "codersage.openChat",
+        "shortTitle": "Back to chat view",
+        "title": "Back to chat view",
+        "icon": "$(arrow-left)"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "Alt+\\",
+        "command": "editor.action.inlineSuggest.trigger",
+        "when": "editorTextFocus && !editorReadonly"
+      },
+      {
+        "key": "CTRL+SHIFT+Z CTRL+SHIFT+T",
+        "command": "codersage.sidebar.focus",
+        "when": "editorTextFocus && !editorReadonly"
+      },
+      {
+        "key": "CTRL+SHIFT+/",
+        "command": "codersage.stopGeneration",
+        "when": "codersageGeneratingText"
+      },
+      {
+        "key": "CTRL+SHIFT+Z CTRL+SHIFT+G",
+        "command": "codersage.getGitCommitMessage"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codersage-sidebar-view",
+          "title": "codersage",
+          "icon": "assets/codersage.svg"
+        }
+      ]
+    },
+    "views": {
+      "codersage-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "codersage.sidebar",
+          "name": "codersage",
+          "icon": "assets/codersage.svg",
+          "contextualTitle": "codersage"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "codersage",
+      "properties": {
+        "codersage.enabled": {
+          "order": 0,
+          "type": "boolean",
+          "default": true,
+          "description": "Activates or deactivates the codersage extension."
+        },
+        "codersage.autoSuggestEnabled": {
+          "order": 1,
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic completion suggestions, manual trigger (default shortcut Alt+\\)."
+        },
+        "codersage.contextLength": {
+          "order": 2,
+          "type": "number",
+          "default": 100,
+          "description": "Defines the number of lines before and after the current line to include in FIM prompts.",
+          "required": true
+        },
+        "codersage.debounceWait": {
+          "order": 3,
+          "type": "number",
+          "default": 300,
+          "description": "Delay in milliseconds before triggering the next completion.",
+          "required": true
+        },
+        "codersage.temperature": {
+          "order": 4,
+          "type": "number",
+          "default": 0.2,
+          "description": "Sets the model's creativity level (temperature) for generating completions.",
+          "required": true
+        },
+        "codersage.multilineCompletionsEnabled": {
+          "order": 5,
+          "type": "boolean",
+          "default": true,
+          "description": "Experimental feature: enables the generation of multi-line completions."
+        },
+        "codersage.maxLines": {
+          "dependencies": {
+            "codersage.multilineCompletionsEnabled": true
+          },
+          "order": 6,
+          "type": "number",
+          "default": 30,
+          "description": "Maximum number of lines to use for multi line completions. Applicable only when multilineCompletionsEnabled is enabled."
+        },
+        "codersage.fileContextEnabled": {
+          "order": 8,
+          "type": "boolean",
+          "default": false,
+          "description": "Enables scanning of neighbouring documents to enhance completion prompts. (Experimental)"
+        },
+        "codersage.completionCacheEnabled": {
+          "order": 9,
+          "type": "boolean",
+          "default": false,
+          "description": "Caches FIM completions for identical prompts to enhance performance."
+        },
+        "codersage.numPredictChat": {
+          "order": 10,
+          "type": "number",
+          "default": 512,
+          "description": "Maximum token limit for chat completions.",
+          "required": true
+        },
+        "codersage.numPredictFim": {
+          "order": 11,
+          "type": "number",
+          "default": 512,
+          "description": "Maximum token limit for FIM completions. Set to -1 for no limit. codersage should stop at logical line breaks.",
+          "required": true
+        },
+        "codersage.enableSubsequentCompletions": {
+          "order": 12,
+          "type": "boolean",
+          "default": true,
+          "description": "Enable this setting to allow codersage to keep making subsequent completion requests to the API after the last completion request was accepted."
+        },
+        "codersage.ollamaHostname": {
+          "order": 13,
+          "type": "string",
+          "default": "0.0.0.0",
+          "description": "Hostname for Ollama API.",
+          "required": true
+        },
+        "codersage.ollamaApiPort": {
+          "order": 14,
+          "type": "number",
+          "default": 11434,
+          "description": "The API port usually `11434`",
+          "required": false
+        },
+        "codersage.keepAlive": {
+          "order": 15,
+          "type": "string",
+          "default": "5m",
+          "description": "Keep models in memory by making requests with keep_alive=-1. Applicable only for Ollama API."
+        },
+        "codersage.ollamaUseTls": {
+          "order": 25,
+          "type": "boolean",
+          "default": false,
+          "description": "Enables TLS encryption Ollama API connections."
+        },
+        "codersage.enableLogging": {
+          "order": 26,
+          "type": "boolean",
+          "default": true,
+          "description": "Enable codersage debug mode"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "webpack",
+    "build-tests": "tsc -p . --outDir out",
+    "lint": "eslint src --ext ts",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "postinstall": "node scripts/postinstall.mjs",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "vscode:package": "npm exec vsce package",
+    "vscode:prepublish": "npm run package",
+    "vscode:publish": "npm exec vsce publish",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "watch": "webpack --watch"
+  },
+  "devDependencies": {
+    "@types/async-lock": "^1.4.2",
+    "@types/handlebars": "^4.1.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^16.18.68",
+    "@types/react-dom": "^18.2.18",
+    "@types/react-syntax-highlighter": "^15.5.11",
+    "@types/string_score": "^0.1.31",
+    "@types/uuid": "^9.0.8",
+    "@types/vscode": "^1.70.0",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "@vscode/test-cli": "^0.0.6",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.18.0",
+    "css-loader": "^6.8.1",
+    "eslint": "^8.20.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.3.0",
+    "ncp": "^2.0.0",
+    "rimraf": "^5.0.5",
+    "style-loader": "^3.3.3",
+    "tree-sitter-wasms": "^0.1.7",
+    "ts-loader": "^9.5.1",
+    "typescript": "^4.7.4",
+    "web-tree-sitter": "^0.22.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@types/react": "^18.2.46",
+    "@vscode/codicons": "^0.0.35",
+    "@vscode/webview-ui-toolkit": "^1.4.0",
+    "async-lock": "^1.4.1",
+    "classnames": "^2.5.1",
+    "handlebars": "^4.7.8",
+    "handlebars-loader": "^1.7.3",
+    "node-polyfill-webpack-plugin": "^3.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0",
+    "stream-http": "^3.2.0",
+    "string_score": "^0.1.22",
+    "uuid": "^9.0.1"
+  }
+}
